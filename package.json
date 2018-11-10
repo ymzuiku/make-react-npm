@@ -1,0 +1,26 @@
+{
+  "name": "make-react-npm",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ymzuiku/create-react-npm.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ymzuiku/create-react-npm/issues"
+  },
+  "homepage": "https://github.com/ymzuiku/create-react-npm#readme",
+  "bin": {
+    "make-react-npm": "bin.js"
+  },
+  "devDependencies": {
+    "fs-extra": "^7.0.1"
+  }
+}
