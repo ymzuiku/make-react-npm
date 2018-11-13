@@ -25,7 +25,6 @@ module.exports = {
     rules: [
       tip.module.rules.eslint,
       tip.module.rules.cssLoader,
-      tip.module.rules.stylusLoader,
       tip.module.rules.urlLoader,
       tip.module.rules.fileLoader,
       tip.module.rules.sourceMapLoader,
