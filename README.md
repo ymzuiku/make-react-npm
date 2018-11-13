@@ -10,7 +10,11 @@ npm i -g make-react-npm
 
 ## 使用脚手架创建 React 组件库
 
-npm 库最好和 github 保持一致，创建项目的命令是 `make-react-npm <你的github账户>/<github仓库名>`, 如:
+我们使用github仓库路径作为参数创建组件库，这样别人从 npmjs.com 上也能链接到github仓库；
+
+创建项目的命令是 `make-react-npm <你的github账户>/<github仓库名>`。
+
+例子：
 
 ```sh
 $ mkdir new-project && cd new-project

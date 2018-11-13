@@ -1,4 +1,6 @@
-此脚手架可以方便生成编写 React 组件库 所需的依赖
+如果你平时想发布一个自己的React组件，发现它并没有和发布其他JS组件一样简单，首先它得对JSX进行转化，并且得使用babel把语法转化为ES3，还得忽略掉一些项目里已用到的库，如 react \ react-dom 等等，还得编写 TypeScript 声明文件。天啊，我只是想把一个组件抽离到 modules 中，为什么需要配置这么多细节？
+
+这个脚手架就是做以上的事情，它非常简单，仅仅是帮我们生成了一个已经配置好以上配置的webpack的项目，我们编写完代码，编译并发布到 [npmjs.com](https://www.npmjs.com/) 即可。
 
 ## 安装
 
@@ -8,7 +10,11 @@ npm i -g make-react-npm
 
 ## 使用脚手架创建 React 组件库
 
-npm 库最好和 github 保持一致，创建项目的命令是 `make-react-npm <你的github账户>/<github仓库名>`, 如:
+我们使用github仓库路径作为参数创建组件库，这样别人从 npmjs.com 上也能链接到github仓库；
+
+创建项目的命令是 `make-react-npm <你的github账户>/<github仓库名>`。
+
+例子：
 
 ```sh
 $ mkdir new-project && cd new-project
