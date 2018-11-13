@@ -26,7 +26,7 @@ $ yarn
 - 设置好 package.json 中的 name 和 version，它们分别是 npm 包名和 包版本号
 - 请确保包可用，共同保证 npm 包的质量
 
-并且使用以下命令发布
+然后使用以下命令发布
 
 ```sh
 $ yarn build
