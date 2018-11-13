@@ -46,7 +46,7 @@ $ sudo npm publish
 
 你可以 [预览此库发布后在npmjs上的页面例子](https://www.npmjs.com/package/make-react-npm)
 
-## 更新webpack
+## 更新 webpack
 
 当前使用的是 webpack4 及 babel7 进行编译，如果需要扩展 webpack 请自行修改 scripts 文件夹中的 webpack 文件
 
