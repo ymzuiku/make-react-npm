@@ -9,12 +9,20 @@ const git = argv[0];
 const name = git.split('/')[1];
 const oldGit = 'ymzuiku/old-name';
 
-fs.copySync(copyPath, cwd);
-console.log('copy done:', name);
+const isHaveDir = fs.existsSync(cwd + '/' + name);
+if (isHaveDir) {
+  console.log(`Error: ${cwd}/${name} is exists`);
+} else {
+  fs.mkdir(cwd + '/' + name);
+  fs.copySync(copyPath, cwd + '/' + name);
 
-const package = require(copyPath + '/package.json');
-package.name = name;
-package.repository.url = package.repository.url.replace(oldGit, git);
-package.bugs.url = package.repository.url.replace(oldGit, git);
-package.homepage = package.repository.url.replace(oldGit, git);
-fs.writeJson(cwd+'/package.json', package);
+  const package = require(copyPath + '/package.json');
+  package.name = name;
+  package.repository.url = package.repository.url.replace(oldGit, git);
+  package.bugs.url = package.repository.url.replace(oldGit, git);
+  package.homepage = package.repository.url.replace(oldGit, git);
+  const jsonformat = JSON.stringify(package, null, 2);
+  fs.writeFile(cwd + '/' + name + '/package.json', jsonformat);
+
+  console.log('Create project done:', name);
+}

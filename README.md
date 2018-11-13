@@ -21,9 +21,8 @@ npm i -g make-react-npm
 例子：
 
 ```sh
-$ mkdir new-project && cd new-project
 $ make-react-npm ymzuiku/new-project
-$ yarn
+$ cd new-project && yarn
 ```
 
 ## 编写代码时所注意
