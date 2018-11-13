@@ -35,7 +35,7 @@ $ yarn build
 $ sudo npm publish
 ```
 
-你也可以[预览此库发布后在npmjs上的页面](https://www.npmjs.com/package/make-react-npm)
+你也可以 [预览此库发布后在npmjs上的页面](https://www.npmjs.com/package/make-react-npm)
 
 ## 更新webpack
 
