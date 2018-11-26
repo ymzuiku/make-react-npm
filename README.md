@@ -41,7 +41,7 @@ $ cd new-project && yarn
 
 ```sh
 $ yarn build
-$ sudo npm publish
+$ sudo npm publish --access public
 ```
 
 你可以 [预览此库发布后在npmjs上的页面例子](https://www.npmjs.com/package/make-react-npm)
