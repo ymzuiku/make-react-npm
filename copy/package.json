@@ -1,9 +1,9 @@
 {
-  "name": "document-kit",
+  "name": "saas-ui-kit",
   "version": "0.1.0",
   "private": true,
   "main": "lib/index.js",
-  "types": "src/lib/index.d.ts",
+  "types": "lib/index.d.ts",
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
