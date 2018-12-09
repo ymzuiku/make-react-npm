@@ -1,1 +1,0 @@
-put need copy file in /public
