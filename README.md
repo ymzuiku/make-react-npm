@@ -51,7 +51,7 @@ import YourModuleOther from 'your-module/lib/other' // 相当于引入 other.lib
 然后使用以下命令发布
 
 ```sh
-$ yarn lib && git add . && git add commit -m 'update'
+$ yarn lib
 $ sudo npm publish --access public
 ```
 
