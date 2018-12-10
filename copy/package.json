@@ -102,7 +102,8 @@
       "!src/index.js",
       "!src/**/*.d.ts",
       "!src/**/*.trust.js",
-      "!src/**/*.test_.js"
+      "!src/**/*.test_.js",
+      "!**/**.trust/*"
     ],
     "resolver": "jest-pnp-resolver",
     "setupFiles": [
