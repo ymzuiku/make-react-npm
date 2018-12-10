@@ -41,6 +41,7 @@ import YourModuleOther from 'your-module/lib/other' // 相当于引入 other.lib
 - 请把源代码代码编写在 src 文件夹, 并且以 *.lib.js 为后缀
 - 请修改 public/index.d.ts 文件为您项目的 TypeScript 类型声明, 方便他人使用时会有提示
 - 如果有任何依赖，请安装到 dependencies , webpage 打包时不会混编 node_modules 的依赖，但是他人安装此库时，会自动安装 dependencies 中的依赖
+- 当前是在 create-react-app@2 上进行扩展, 原则上此库是一个完整的 React 项目库，你可以使用 jest 进行测试，亦可以使用 yarn start 启动项目(作为库的demo演示)
 
 ## 发布
 
@@ -59,7 +60,7 @@ $ sudo npm publish --access public
 
 ## 更新 webpack
 
-当前是在 create-react-app@2 上进行扩展, 如果需要扩展 webpack 请自行修改 scripts 文件夹中的 webpack 文件
+如果需要扩展 webpack 请自行修改 scripts 文件夹中的 webpack 文件
 
 ## Licenes
 
