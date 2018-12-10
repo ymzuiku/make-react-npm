@@ -25,9 +25,13 @@ $ make-react-npm ymzuiku/new-project
 $ cd new-project && yarn
 ```
 
+## 约定
+
+`yarn lib` 会把所有 *.lib.js 匹配的文件编译成被使用的文件
+
 ## 编写代码时所注意
 
-- 请把源代码代码编写在 src 文件夹
+- 请把源代码代码编写在 src 文件夹, 并且以 *.lib.js 为后缀
 - 请修改 public/index.d.ts 文件为您项目的 TypeScript 类型声明, 方便他人使用时会有提示
 - 如果有任何依赖，请安装到 dependencies , webpage 打包时不会混编 node_modules 的依赖，但是他人安装此库时，会自动安装 dependencies 中的依赖
 
@@ -40,7 +44,7 @@ $ cd new-project && yarn
 然后使用以下命令发布
 
 ```sh
-$ yarn build
+$ yarn lib && git add . && git add commit -m 'update'
 $ sudo npm publish --access public
 ```
 
