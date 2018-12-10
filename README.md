@@ -59,7 +59,7 @@ $ sudo npm publish --access public
 
 ## 更新 webpack
 
-当前使用的是 webpack4 及 babel7 进行编译，如果需要扩展 webpack 请自行修改 scripts 文件夹中的 webpack 文件
+当前是在 create-react-app@2 上进行扩展, 如果需要扩展 webpack 请自行修改 scripts 文件夹中的 webpack 文件
 
 ## Licenes
 
