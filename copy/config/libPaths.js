@@ -6,11 +6,12 @@ const url = require('url');
 
 // 递归 src/, 如果有 *.lib.js 的文件就添加到lib编译中, 请确保 *.lib.js 不要重名
 // index.lib.js 为库的默认main文件
+const entryList = {};
+const dtsList = {};
 function loadAllEnters(rootP) {
   const ignoreFiles = {
     '.DS_Store': true,
   };
-  const returnEle = {};
   function loadFiles(p) {
     const libList = fs.readdirSync(p);
     for (let i = 0; i < libList.length; i++) {
@@ -24,17 +25,19 @@ function loadAllEnters(rootP) {
       if (stat && stat.isDirectory()) {
         loadFiles(vp);
       } else {
-        if (v.search(/\.lib\./) > -1) {
+        if (v.search(/\.lib\.d\.ts/) > -1) {
           const vlist = v.split('.');
-          returnEle[vlist[0]] = vp;
+          dtsList[vlist[0]+'.d.ts'] = vp;
+        } else if (v.search(/\.lib\./) > -1) {
+          const vlist = v.split('.');
+          entryList[vlist[0]] = vp;
         }
       }
     }
   }
   loadFiles(rootP);
-  return returnEle;
 }
-const entryList = loadAllEnters(path.resolve(__dirname, '../src'));
+loadAllEnters(path.resolve(__dirname, '../src'));
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebook/create-react-app/issues/637
@@ -96,6 +99,7 @@ const resolveModule = (resolveFn, filePath) => {
 // config after eject: we're in ./config/
 module.exports = {
   entryList,
+  dtsList,
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
   appBuild: resolveApp('lib'),
