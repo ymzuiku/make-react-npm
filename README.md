@@ -29,6 +29,13 @@ $ cd new-project && yarn
 
 `yarn lib` 会把所有 *.lib.js 匹配的文件编译成被使用的文件
 
+发布之后，使用只需
+
+```js
+import YourModule from 'your-module' // 相当于引入 index.lib.js
+import YourModuleOther from 'your-module/lib/other' // 相当于引入 other.lib.js
+```
+
 ## 编写代码时所注意
 
 - 请把源代码代码编写在 src 文件夹, 并且以 *.lib.js 为后缀
