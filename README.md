@@ -27,7 +27,8 @@ $ cd new-project && yarn
 
 ## 约定
 
-`yarn lib` 会把所有 *.lib.js 匹配的文件编译成被使用的文件
+`yarn lib` 会把所有 `*.lib.js` 匹配的文件编译成被使用的文件
+编译结束之后会拷贝所有 `*.lib.d.ts` 至 lib/ 文件夹中，以方便引用后的 typescript 提示
 
 发布之后，使用只需
 
