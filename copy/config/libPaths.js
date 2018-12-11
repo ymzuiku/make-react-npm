@@ -23,11 +23,15 @@ function loadAllEnters(rootP) {
 
       const stat = fs.statSync(vp);
       if (stat && stat.isDirectory()) {
+        if (v.search(/\.lib/) > 0) {
+          const vlist = v.split('.');
+          dtsList[vlist[0]] = vp;
+        }
         loadFiles(vp);
       } else {
         if (v.search(/\.lib\.d\.ts/) > -1) {
           const vlist = v.split('.');
-          dtsList[vlist[0]+'.d.ts'] = vp;
+          dtsList[vlist[0] + '.d.ts'] = vp;
         } else if (v.search(/\.lib\./) > -1) {
           const vlist = v.split('.');
           entryList[vlist[0]] = vp;
