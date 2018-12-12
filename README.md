@@ -30,11 +30,13 @@ $ cd new-project && yarn
 `yarn lib` 会把所有 `*.lib.js` 匹配的文件编译成被使用的文件
 编译结束之后会拷贝所有 `*.lib.d.ts` 至 lib/ 文件夹中，以方便引用后的 typescript 提示
 
-发布之后，使用只需
+只发布lib文件夹，这样方便他人下载时更快，其他区域的代码公布到github中
+
+发布后方便使用时引用：
 
 ```js
 import YourModule from 'your-module' // 相当于引入 index.lib.js
-import YourModuleOther from 'your-module/lib/other' // 相当于引入 other.lib.js
+import YourModuleOther from 'your-module/other' // 相当于引入 other.lib.js
 ```
 
 ## 编写代码时所注意
@@ -54,7 +56,7 @@ import YourModuleOther from 'your-module/lib/other' // 相当于引入 other.lib
 
 ```sh
 $ yarn lib
-$ sudo npm publish --access public
+$ yarn publish # cd lib && npm publish --access public
 ```
 
 你可以 [预览此库发布后在npmjs上的页面例子](https://www.npmjs.com/package/make-react-npm)

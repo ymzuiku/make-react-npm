@@ -6,6 +6,7 @@ const url = require('url');
 
 // 递归 src/, 如果有 *.lib.js 的文件就添加到lib编译中, 请确保 *.lib.js 不要重名
 // index.lib.js 为库的默认main文件
+// 如果文件夹包含 .lib 就会把文件夹拷贝到输出目录
 const entryList = {};
 const dtsList = {};
 function loadAllEnters(rootP) {

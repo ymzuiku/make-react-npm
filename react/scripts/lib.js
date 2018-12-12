@@ -46,6 +46,15 @@ if (!checkRequiredFiles([paths.appIndexJs])) {
 const argv = process.argv.slice(2);
 const writeStatsJson = argv.indexOf('--stats') !== -1;
 
+function updateVersion(version) {
+  const versionList = version.split('.');
+  versionList[2] = Number(versionList[2]) + 1;
+  return versionList[0] + '.' + versionList[1] + '.' + versionList[2];
+}
+const packageJSON = require('../package.json');
+packageJSON.version = updateVersion(packageJSON.version);
+fs.writeJSONSync(path.resolve(__dirname, '../package.json'), packageJSON, { spaces: 2 });
+
 // We require that you explicitly set browsers and do not fall back to
 // browserslist defaults.
 const { checkBrowsers } = require('react-dev-utils/browsersHelper');
@@ -175,4 +184,9 @@ function copyPublicFolder() {
       dereference: true,
     });
   }
+  if (process.env.cp) {
+    fs.copyFile(path.resolve(__dirname, `../${process.env.cp}`), path.resolve(__dirname, `../lib/${process.env.cp}`));
+  }
+  fs.copySync(path.resolve(__dirname, '../README.md'), path.resolve(__dirname, '../lib/README.md'));
+  fs.writeJSONSync(path.resolve(__dirname, '../lib/package.json'), packageJSON, { spaces: 2 });
 }
