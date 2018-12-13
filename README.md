@@ -16,12 +16,14 @@ npm i -g make-react-npm
 
 我们使用github仓库路径作为参数创建组件库，这样别人从 npmjs.com 上也能链接到github仓库；
 
-创建项目的命令是 `make-react-npm <你的github账户>/<github仓库名>`。
+创建 React 项目的命令是 `make-react-npm react <你的github账户>/<github仓库名>`。
+
+创建 Next 项目的命令是 `make-react-npm next <你的github账户>/<github仓库名>`。
 
 例子：
 
 ```sh
-$ make-react-npm ymzuiku/new-project
+$ make-react-npm react ymzuiku/new-project
 $ cd new-project && yarn
 ```
 
