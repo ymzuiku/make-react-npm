@@ -185,8 +185,8 @@ function copyPublicFolder() {
     });
   }
   if (process.env.cp) {
-    fs.copyFile(path.resolve(__dirname, `../${process.env.cp}`), path.resolve(__dirname, `../lib/${process.env.cp}`));
+    fs.copyFile(path.resolve(__dirname, `../${process.env.cp}`), path.resolve(__dirname, `../dist/${process.env.cp}`));
   }
-  fs.copySync(path.resolve(__dirname, '../README.md'), path.resolve(__dirname, '../lib/README.md'));
-  fs.writeJSONSync(path.resolve(__dirname, '../lib/package.json'), packageJSON, { spaces: 2 });
+  fs.copySync(path.resolve(__dirname, '../README.md'), path.resolve(__dirname, '../dist/README.md'));
+  fs.writeJSONSync(path.resolve(__dirname, '../dist/package.json'), packageJSON, { spaces: 2 });
 }
