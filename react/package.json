@@ -1,14 +1,13 @@
 {
   "name": "saas-ui-kit",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "lib": "node scripts/build.lib.js",
-    "publish": "cd dist && npm publish --access public",
     "lint-hook": "node_modules/.bin/eslint 'src/**/*.js' --cache --cache-location './node_modules/.eslint_cache/'",
     "test-hook": "jest",
     "test": "node scripts/test.js"

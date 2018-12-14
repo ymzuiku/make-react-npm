@@ -58,7 +58,8 @@ import YourModuleOther from 'your-module/other' // 相当于引入 other.lib.js
 
 ```sh
 $ yarn lib
-$ yarn publish # cd lib && npm publish --access public
+$ cd dist
+$ npm publish --access public
 ```
 
 你可以 [预览此库发布后在npmjs上的页面例子](https://www.npmjs.com/package/make-react-npm)
