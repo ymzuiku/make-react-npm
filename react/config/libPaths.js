@@ -13,7 +13,7 @@ function loadAllEnters(rootP) {
   const ignoreFiles = {
     '.DS_Store': true,
   };
-  function loadFiles(p) {
+  function loadFiles(p, isReal = false) {
     const libList = fs.readdirSync(p);
     for (let i = 0; i < libList.length; i++) {
       const v = libList[i];
@@ -25,15 +25,21 @@ function loadAllEnters(rootP) {
       const stat = fs.statSync(vp);
       if (stat && stat.isDirectory()) {
         if (v.search(/\.lib/) > 0) {
-          const vlist = v.split('.');
-          dtsList[vlist[0]] = vp;
+          loadFiles(vp, true);
+        } else {
+          loadFiles(vp, false);
         }
-        loadFiles(vp);
       } else {
         if (v.search(/\.lib\.d\.ts/) > -1) {
           const vlist = v.split('.');
           dtsList[vlist[0] + '.d.ts'] = vp;
-        } else if (v.search(/\.lib\./) > -1) {
+        } else if (v.search(/\.lib\.js/) > -1) {
+          const vlist = v.split('.');
+          entryList[vlist[0]] = vp;
+        } else if (v.search(/\.d\.ts/) > -1 && isReal) {
+          const vlist = v.split('.');
+          dtsList[vlist[0] + '.d.ts'] = vp;
+        } else if (v.search(/\.js/) > -1 && isReal) {
           const vlist = v.split('.');
           entryList[vlist[0]] = vp;
         }
