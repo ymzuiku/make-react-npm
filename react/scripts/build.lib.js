@@ -178,8 +178,8 @@ function copyPublicFolder() {
     dereference: true,
     filter: file => file !== paths.appHtml,
   });
-  for (const k in paths.dtsList) {
-    const p = paths.dtsList[k];
+  for (const k in paths.copyList) {
+    const p = paths.copyList[k];
     fs.copySync(p, paths.appBuild + '/' + k, {
       dereference: true,
     });

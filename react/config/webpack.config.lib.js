@@ -326,8 +326,8 @@ module.exports = {
     new ModuleNotFoundPlugin(paths.appPath),
     new webpack.DefinePlugin(env.stringified),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
-      chunkFilename: 'css/[name].chunk.css',
+      filename: '[name].css', // 'css/[name].css'
+      chunkFilename: '[name].chunk.css', // 'css/[name].chunk.css'
     }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     fs.existsSync(paths.appTsConfig) &&

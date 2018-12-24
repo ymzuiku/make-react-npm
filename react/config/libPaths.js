@@ -8,7 +8,7 @@ const url = require('url');
 // index.lib.js 为库的默认main文件
 // 如果文件夹包含 .lib 就会把文件夹拷贝到输出目录
 const entryList = {};
-const dtsList = {};
+const copyList = {};
 function loadAllEnters(rootP) {
   const ignoreFiles = {
     '.DS_Store': true,
@@ -30,18 +30,40 @@ function loadAllEnters(rootP) {
           loadFiles(vp, false);
         }
       } else {
-        if (v.search(/\.lib\.d\.ts/) > -1) {
-          const vlist = v.split('.');
-          dtsList[vlist[0] + '.d.ts'] = vp;
-        } else if (v.search(/\.lib\.js/) > -1) {
-          const vlist = v.split('.');
-          entryList[vlist[0]] = vp;
-        } else if (v.search(/\.d\.ts/) > -1 && isReal) {
-          const vlist = v.split('.');
-          dtsList[vlist[0] + '.d.ts'] = vp;
-        } else if (v.search(/\.js/) > -1 && isReal) {
-          const vlist = v.split('.');
-          entryList[vlist[0]] = vp;
+        if (isReal) {
+          if (v.search(/\.js/) > -1) {
+            const vlist = v.split('.');
+            entryList[vlist[0]] = vp;
+          } else if (v.search(/\.d\.ts/) > -1) {
+            const vlist = v.split('.');
+            copyList[vlist[0] + '.d.ts'] = vp;
+          } else if (v.search(/\.less/) > -1) {
+            const vlist = v.split('.');
+            copyList[vlist[0] + '.less'] = vp;
+          } else if (v.search(/\.scss/) > -1) {
+            const vlist = v.split('.');
+            copyList[vlist[0] + '.scss'] = vp;
+          } else if (v.search(/\.css/) > -1) {
+            const vlist = v.split('.');
+            copyList[vlist[0] + '.css'] = vp;
+          }
+        } else {
+          if (v.search(/\.lib\.js/) > -1) {
+            const vlist = v.split('.');
+            entryList[vlist[0]] = vp;
+          } else if (v.search(/\.lib\.d\.ts/) > -1) {
+            const vlist = v.split('.');
+            copyList[vlist[0] + '.d.ts'] = vp;
+          } else if (v.search(/\.lib\.less/) > -1) {
+            const vlist = v.split('.');
+            copyList[vlist[0] + '.less'] = vp;
+          } else if (v.search(/\.lib\.scss/) > -1) {
+            const vlist = v.split('.');
+            copyList[vlist[0] + '.scss'] = vp;
+          } else if (v.search(/\.lib\.css/) > -1) {
+            const vlist = v.split('.');
+            copyList[vlist[0] + '.css'] = vp;
+          }
         }
       }
     }
@@ -110,7 +132,7 @@ const resolveModule = (resolveFn, filePath) => {
 // config after eject: we're in ./config/
 module.exports = {
   entryList,
-  dtsList,
+  copyList,
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
   appBuild: resolveApp('dist'),
