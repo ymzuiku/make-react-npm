@@ -29,7 +29,7 @@ $ cd new-project && yarn
 
 ## 约定
 
-`yarn lib` 会把所有 `*.lib.js` 匹配的文件编译成被使用的文件
+`yarn lib` 会把所有 `*.lib.js` 匹配的文件 或所有 `*.lib` 匹配的文件夹中的文件编译成被使用的文件
 编译结束之后会拷贝所有 `*.lib.d.ts` 至 lib/ 文件夹中，以方便引用后的 typescript 提示
 
 只发布lib文件夹，这样方便他人下载时更快，其他区域的代码公布到github中
