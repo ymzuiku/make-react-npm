@@ -199,7 +199,7 @@ module.exports = {
             loader: require.resolve('url-loader'),
             options: {
               limit: 10000,
-              name: 'static/media/[name].[hash:8].[ext]',
+              name: 'static/lib/[name].[hash:8].[ext]',
             },
           },
           {
@@ -313,7 +313,7 @@ module.exports = {
             loader: require.resolve('file-loader'),
             exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
             options: {
-              name: 'media/[name].[ext]',
+              name: 'lib/[name].[ext]',
             },
           },
           // ** STOP ** Are you adding a new loader?

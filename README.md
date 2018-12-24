@@ -41,6 +41,22 @@ import YourModule from 'your-module' // 相当于引入 index.lib.js
 import YourModuleOther from 'your-module/other' // 相当于引入 other.lib.js
 ```
 
+## 如果有资源依赖
+
+只需把static中的资源拷贝到静态目录中：
+
+```sh
+$ yarn add your-module
+$ cp -rf ./node_modules/your-module/static ./public
+```
+
+然后在项目中引用资源:
+
+```js
+import img from 'your-module/img'
+require(img.face) // require('static/lib/face_JF73F.png')
+```
+
 ## 编写代码时所注意
 
 - 请把源代码代码编写在 src 文件夹, 并且以 *.lib.js 为后缀
