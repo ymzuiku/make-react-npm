@@ -21,6 +21,7 @@
     "make-react-npm": "bin.js"
   },
   "dependencies": {
-    "fs-extra": "^7.0.1"
+    "fs-extra": "^7.0.1",
+    "prop-types": "^0.0.1"
   }
 }
