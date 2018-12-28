@@ -5,7 +5,7 @@ import Enzyme, { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
 import { toSnapshot } from 'react-test-renderer-helper';
 import Adapter from 'enzyme-adapter-react-16';
-import App from '../src/index';
+import App from '../src/App';
 
 Enzyme.configure({ adapter: new Adapter() });
 

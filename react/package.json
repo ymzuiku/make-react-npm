@@ -110,7 +110,11 @@
   ],
   "jest": {
     "collectCoverage": true,
-    "collectCoverageFrom": [],
+    "collectCoverageFrom": [
+      "**/src/model/*.js",
+      "**/src/components/*.js",
+      "!**/src/index.js"
+    ],
     "resolver": "jest-pnp-resolver",
     "setupFiles": [
       "react-app-polyfill/jsdom"
