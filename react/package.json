@@ -111,8 +111,9 @@
   "jest": {
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "**/src/model/*.js",
-      "**/src/components/*.js",
+      "**/src/**/action*.{js,jsx}",
+      "**/src/components/*.{js,jsx}",
+      "!**/node_modules/**",
       "!**/src/index.js"
     ],
     "resolver": "jest-pnp-resolver",
