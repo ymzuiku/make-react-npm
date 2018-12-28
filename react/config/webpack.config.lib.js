@@ -47,8 +47,6 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
-const lessRegex = /\.less$/;
-const lessModuleRegex = /\.module\.less$/;
 
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor) => {
@@ -167,6 +165,7 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
+      'src': path.resolve(__dirname, '../src'),
     },
     plugins: [PnpWebpackPlugin, new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson])],
   },
@@ -206,7 +205,7 @@ module.exports = {
             loader: require.resolve('url-loader'),
             options: {
               limit: 10000,
-              name: 'static/lib/[name].[hash:8].[ext]',
+              name: 'lib_media/[name].[hash:8].[ext]',
             },
           },
           {
@@ -294,33 +293,11 @@ module.exports = {
               'sass-loader',
             ),
           },
-          // less-loader
-          {
-            test: lessRegex,
-            exclude: lessModuleRegex,
-            use: getStyleLoaders({ importLoaders: 2 }, 'less-loader'),
-          },
-          // using the extension .module.less
-          {
-            test: lessModuleRegex,
-            use: getStyleLoaders(
-              {
-                importLoaders: 2,
-                modules: true,
-                getLocalIdent: getCSSModuleLocalIdent,
-              },
-              'less-loader',
-            ),
-          },
-          // "file" loader makes sure assets end up in the `build` folder.
-          // When you `import` an asset, you get its filename.
-          // This loader doesn't use a "test" so it will catch all modules
-          // that fall through the other loaders.
           {
             loader: require.resolve('file-loader'),
             exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
             options: {
-              name: 'lib/[name].[ext]',
+              name: '/lib_media/[name].[ext]',
             },
           },
           // ** STOP ** Are you adding a new loader?
@@ -333,8 +310,8 @@ module.exports = {
     new ModuleNotFoundPlugin(paths.appPath),
     new webpack.DefinePlugin(env.stringified),
     new MiniCssExtractPlugin({
-      filename: '[name].css', // 'css/[name].css'
-      chunkFilename: '[name].chunk.css', // 'css/[name].chunk.css'
+      filename: 'css/[name].css',
+      chunkFilename: 'css/[name].chunk.css',
     }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     fs.existsSync(paths.appTsConfig) &&
