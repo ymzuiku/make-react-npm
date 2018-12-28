@@ -1,17 +1,37 @@
 'use strict';
 
+/**
+ * 在项目根路径创建一个 .libconfig.js 文件
+ * 运行 node scripts/build.lib.js
+ * 即可对路径中的文件逐个进行编译
+ */
+
+/* .libconfig.js 文件例子
+module.exports = {
+  lib: ['./src/components', './src/assets', './src/units'],
+  dontLib: ['./src/units/paths.js'],
+};
+*/
+
 const path = require('path');
 const fs = require('fs-extra');
 const url = require('url');
 const rootPath = path.resolve(__dirname, '../');
 
-let libConfig = {};
+let libConfig = { lib: {}, dontLib: {} };
 
 const libConfigPath = path.resolve(rootPath, '.libconfig.js');
 if (fs.existsSync(libConfigPath)) {
   let tempLib = require(libConfigPath);
-  for (let i = 0; i < tempLib.length; i++) {
-    libConfig[path.resolve(rootPath, tempLib[i])] = true;
+  if (tempLib.lib) {
+    for (let i = 0; i < tempLib.lib.length; i++) {
+      libConfig.lib[path.resolve(rootPath, tempLib.lib[i])] = true;
+    }
+  }
+  if (tempLib.dontLib) {
+    for (let i = 0; i < tempLib.dontLib.length; i++) {
+      libConfig.dontLib[path.resolve(rootPath, tempLib.dontLib[i])] = true;
+    }
   }
 }
 
@@ -37,19 +57,37 @@ function loadAllEnters(rootP) {
 
       const stat = fs.statSync(vp);
       if (stat && stat.isDirectory()) {
-        if (isReal === '*') {
+        // 如果匹配 isReal === 0, 所有子层级不进行抽离
+        if (isReal === 0) {
+          loadFiles(vp, 0);
+        }
+        // 如果匹配 isReal === * 所有子层级都抽离
+        else if (isReal === '*') {
           loadFiles(vp, '*');
-        } else if (libConfig[vp + '/*']) {
+        }
+        // 如果匹配 dontLib, 不进行抽离
+        else if (libConfig.dontLib[vp + '/*']) {
+          loadFiles(vp, 0);
+        } else if (libConfig.dontLib[vp]) {
+          loadFiles(vp, false);
+        }
+        // 如果匹配 lib, 进行抽离
+        else if (libConfig.lib[vp + '/*']) {
           loadFiles(vp, '*');
-        } else if (libConfig[vp]) {
+        } else if (libConfig.lib[vp]) {
           loadFiles(vp, true);
-        } else if (v.search(/\.lib/) > 0) {
+        }
+        // 如果文件夹名字包含 .lib 进行抽离
+        else if (v.search(/\.lib/) > 0) {
           loadFiles(vp, true);
-        } else {
+        }
+        // 以上不满足，此文件夹不进行抽离
+        else {
           loadFiles(vp, false);
         }
       } else {
-        if (isReal) {
+        // 如果isReal，并且 dotLib 中没有这个文件, 不管文件名有没有包含 .lib 都进行抽离文件
+        if (isReal && !libConfig.dontLib[vp]) {
           if (v.search(/\.js/) > -1) {
             const vlist = v.split('.');
             entryList[vlist[0]] = vp;
@@ -66,7 +104,9 @@ function loadAllEnters(rootP) {
             const vlist = v.split('.');
             copyList[vlist[0] + '.css'] = vp;
           }
-        } else {
+        }
+        // 如果以上条件不满足，但是文件名中包含 .lib 进行抽离
+        else {
           if (v.search(/\.lib\.js/) > -1) {
             const vlist = v.split('.');
             entryList[vlist[0]] = vp;

@@ -1,12 +1,5 @@
 'use strict';
 
-/**
- * 在项目根路径创建一个 .libconfig.js 文件
- * 文件内容如： module.exports = ['./src/components', './src/img/*'];
- * 运行 node scripts/build.lib.js
- * 即可对路径中的文件逐个进行编译
- */
-
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
