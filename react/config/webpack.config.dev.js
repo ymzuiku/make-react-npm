@@ -36,8 +36,6 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
-const lessRegex = /\.less$/;
-const lessModuleRegex = /\.module\.less$/;
 
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor) => {
@@ -148,6 +146,7 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
+      // 'src': path.resolve(__dirname, '../src'),
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -301,24 +300,6 @@ module.exports = {
                 getLocalIdent: getCSSModuleLocalIdent,
               },
               'sass-loader',
-            ),
-          },
-          // less-loader
-          {
-            test: lessRegex,
-            exclude: lessModuleRegex,
-            use: getStyleLoaders({ importLoaders: 2 }, 'less-loader'),
-          },
-          // using the extension .module.less
-          {
-            test: lessModuleRegex,
-            use: getStyleLoaders(
-              {
-                importLoaders: 2,
-                modules: true,
-                getLocalIdent: getCSSModuleLocalIdent,
-              },
-              'less-loader',
             ),
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.

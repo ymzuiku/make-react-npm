@@ -19,4 +19,3 @@ test('App 初始化渲染快照', () => {
   const comp = renderer.create(<App bb={20} />);
   expect(toSnapshot(comp)).toMatchSnapshot('render');
 });
-
