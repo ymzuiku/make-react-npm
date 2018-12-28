@@ -3,10 +3,23 @@
 const path = require('path');
 const fs = require('fs-extra');
 const url = require('url');
+const rootPath = path.resolve(__dirname, '../');
+
+let libConfig = {};
+
+const libConfigPath = path.resolve(rootPath, '.libconfig.js');
+if (fs.existsSync(libConfigPath)) {
+  let tempLib = require(libConfigPath);
+  for (let i = 0; i < tempLib.length; i++) {
+    libConfig[path.resolve(rootPath, tempLib[i])] = true;
+  }
+}
 
 // 递归 src/, 如果有 *.lib.js 的文件就添加到lib编译中, 请确保 *.lib.js 不要重名
 // index.lib.js 为库的默认main文件
 // 如果文件夹包含 .lib 就会把文件夹拷贝到输出目录
+// 读取根目录的 .libconfig.js 文件，文件返回一个数组，数组的路径如果满足以上规则也会进行编译
+
 const entryList = {};
 const copyList = {};
 function loadAllEnters(rootP) {
@@ -24,7 +37,13 @@ function loadAllEnters(rootP) {
 
       const stat = fs.statSync(vp);
       if (stat && stat.isDirectory()) {
-        if (v.search(/\.lib/) > 0) {
+        if (isReal === '*') {
+          loadFiles(vp, '*');
+        } else if (libConfig[vp + '/*']) {
+          loadFiles(vp, '*');
+        } else if (libConfig[vp]) {
+          loadFiles(vp, true);
+        } else if (v.search(/\.lib/) > 0) {
           loadFiles(vp, true);
         } else {
           loadFiles(vp, false);
