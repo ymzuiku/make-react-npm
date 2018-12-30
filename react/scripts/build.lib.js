@@ -187,7 +187,15 @@ function copyPublicFolder() {
   if (process.env.cp) {
     fs.copyFile(path.resolve(__dirname, `../${process.env.cp}`), path.resolve(__dirname, `../dist/${process.env.cp}`));
   }
-  fs.copySync(path.resolve(__dirname, '../README.md'), path.resolve(__dirname, '../dist/README.md'));
+  if (fs.existsSync(path.resolve(__dirname, '../README.md'))) {
+    fs.copySync(path.resolve(__dirname, '../README.md'), path.resolve(__dirname, '../dist/README.md'));
+  }
+  if (fs.existsSync(path.resolve(__dirname, '../README-EN.md'))) {
+    fs.copySync(path.resolve(__dirname, '../README-EN.md'), path.resolve(__dirname, '../dist/README-EN.md'));
+  }
+  if (fs.existsSync(path.resolve(__dirname, '../README-CN.md'))) {
+    fs.copySync(path.resolve(__dirname, '../README-CN.md'), path.resolve(__dirname, '../dist/README-CN.md'));
+  }
   packageJSON.main = 'index.js';
   packageJSON.types = 'index.d.ts';
   if (process.env.copy) {
