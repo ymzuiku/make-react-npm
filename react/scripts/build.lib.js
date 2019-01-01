@@ -35,6 +35,8 @@ const useYarn = fs.existsSync(paths.yarnLockFile);
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
+console.log(paths.entryList);
+
 const isInteractive = process.stdout.isTTY;
 
 // Warn and crash if required files are missing
@@ -198,6 +200,15 @@ function copyPublicFolder() {
   }
   packageJSON.main = 'index.js';
   packageJSON.types = 'index.d.ts';
+  delete packageJSON.scripts;
+  delete packageJSON.jest;
+  delete packageJSON.devDependencies;
+  delete packageJSON.private;
+  delete packageJSON.browserslist;
+  delete packageJSON.babel;
+  delete packageJSON['pre-commit'];
+  
+  packageJSON['pre-commit'] = {};
   if (process.env.copy) {
     packageJSON['copy-dependencies'] = { ...packageJSON.dependencies };
     packageJSON.dependencies = {};
