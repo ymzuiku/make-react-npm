@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * 在项目根路径创建一个 .libconfig.js 文件
  * 运行 node scripts/build.lib.js
@@ -87,7 +85,9 @@ function loadAllEnters(rootP) {
         }
       } else {
         // 如果isReal，并且 dotLib 中没有这个文件, 不管文件名有没有包含 .lib 都进行抽离文件
-        if (isReal && !libConfig.dontLib[vp]) {
+        if (v.search(/\.nolib/) > -1) {
+          // 如果文件名包含 nolib 不抽出
+        } else if (isReal && !libConfig.dontLib[vp]) {
           if (v.search(/\.js/) > -1) {
             const vlist = v.split('.');
             entryList[vlist[0]] = vp;
@@ -104,6 +104,11 @@ function loadAllEnters(rootP) {
             const vlist = v.split('.');
             copyList[vlist[0] + '.css'] = vp;
           }
+        }
+        // 如果 .libconfig.js 中直接包含了文件，也进行抽离
+        else if (libConfig.lib[vp]) {
+          const vlist = v.split('.');
+          entryList[vlist[0]] = vp;
         }
         // 如果以上条件不满足，但是文件名中包含 .lib 进行抽离
         else {
@@ -127,7 +132,7 @@ function loadAllEnters(rootP) {
       }
     }
   }
-  loadFiles(rootP);
+  loadFiles(rootP, libConfig.lib[rootP] !== undefined);
 }
 loadAllEnters(path.resolve(__dirname, '../src'));
 
