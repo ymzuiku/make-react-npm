@@ -191,10 +191,7 @@ module.exports = {
         ],
         include: paths.appSrc,
       },
-      {
-        test: /.mdx?$/,
-        use: ['babel-loader', '@mdx-js/loader']
-      },
+
       {
         oneOf: [
           {
@@ -245,6 +242,10 @@ module.exports = {
               cacheCompression: true,
               sourceMaps: false,
             },
+          },
+          {
+            test: /.mdx?$/,
+            use: ['babel-loader', '@mdx-js/loader'],
           },
           {
             test: cssRegex,

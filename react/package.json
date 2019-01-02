@@ -5,7 +5,7 @@
   "main": "dist",
   "types": "dist/index.d.ts",
   "scripts": {
-    "reload-img": "auto-require-files src/assets assets",
+    "reload-img": "auto-require-files src/assets HBAssets",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "lib": "copy=1 node scripts/build.lib.js",
@@ -202,7 +202,7 @@
         }
       ]
     ]
-  }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ymzuiku/old-name.git"
