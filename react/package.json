@@ -2,38 +2,45 @@
   "name": "react-ui-kit",
   "version": "0.0.1",
   "private": true,
-  "main": "src/component",
-  "types": "src/component/index.d.ts",
+  "main": "dist",
+  "types": "dist/index.d.ts",
   "scripts": {
     "reload-img": "auto-require-files src/assets assets",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "lib": "node scripts/build.lib.js",
+    "lib": "copy=1 node scripts/build.lib.js",
     "publish": "npm run lib && cd dist && npm publish --access public",
-    "lint-hook": "node_modules/.bin/eslint 'src/**/*.js' --cache --cache-location './node_modules/.eslint_cache/'",
-    "test-hook": "jest",
+    "deploy": "jest --ci && yarn build && bash deploy.sh root@120.79.150.132 deploy",
+    "rollback": "bash deploy.sh root@120.79.150.132 rollback",
+    "lint-ci": "eslint src --ext .js --cache --fix",
+    "test-ci": "jest --ci",
     "test": "node scripts/test.js"
   },
   "dependencies": {
+    "fastclick": "^1.0.6",
+    "history": "^4.7.2",
+    "i18fn": "^1.2.9",
     "immutable": "^4.0.0-rc.12",
-    "mix-color": "^1.0.10",
+    "mix-color": "^1.0.12",
+    "object-fit": "^0.4.3",
     "prism-react-renderer": "^0.1.5",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
-    "react-dom-pseudo": "^1.1.5",
+    "react-dom-pseudo": "^1.1.20",
     "react-loadable": "^5.5.0",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
     "react-spring": "^6.1.10",
     "react-tiny-virtual-list": "^2.2.0",
-    "fastclick": "^1.0.6",
-    "object-fit": "^0.4.3",
     "styled-components": "^4.1.3"
   },
   "devDependencies": {
     "@babel/core": "7.1.0",
     "@babel/plugin-proposal-decorators": "^7.2.3",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.2.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
+    "@mdx-js/loader": "^0.16.6",
     "@svgr/webpack": "2.4.1",
     "auto-require-files": "^1.0.11",
     "babel-core": "7.0.0-bridge.0",
@@ -67,6 +74,7 @@
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
     "fs-extra": "7.0.0",
     "html-webpack-plugin": "4.0.0-alpha.2",
+    "husky": "^1.3.1",
     "identity-obj-proxy": "3.0.0",
     "jest": "^23.6.0",
     "jest-pnp-resolver": "1.0.1",
@@ -79,7 +87,6 @@
     "postcss-loader": "3.0.0",
     "postcss-preset-env": "6.0.6",
     "postcss-safe-parser": "4.0.1",
-    "pre-commit": "^1.2.2",
     "prettier": "^1.15.3",
     "react-app-polyfill": "^0.1.3",
     "react-dev-utils": "^6.1.1",
@@ -99,9 +106,12 @@
     "webpack-node-externals": "^1.7.2",
     "workbox-webpack-plugin": "3.6.3"
   },
-  "pre-commit": [
-    "lint-hook"
-  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint-ci",
+      "pre-push": "yarn test-ci"
+    }
+  },
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -111,9 +121,12 @@
   "jest": {
     "collectCoverage": true,
     "collectCoverageFrom": [
+      "**/src/**/HB**.js",
       "**/src/**/action*.{js,jsx}",
-      "**/src/components/*.{js,jsx}",
+      "**/src/HBComponents/*.{js,jsx}",
       "!**/node_modules/**",
+      "!**/HBServiceWorker.js",
+      "!**/HBInitHTMLENV.js",
       "!**/src/index.js"
     ],
     "resolver": "jest-pnp-resolver",
@@ -163,6 +176,18 @@
     "plugins": [
       "babel-plugin-styled-components",
       [
+        "@babel/plugin-proposal-optional-chaining",
+        {
+          "loose": false
+        }
+      ],
+      [
+        "@babel/plugin-proposal-nullish-coalescing-operator",
+        {
+          "loose": false
+        }
+      ],
+      [
         "@babel/plugin-proposal-decorators",
         {
           "legacy": true
@@ -177,7 +202,7 @@
         }
       ]
     ]
-  },
+  }
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ymzuiku/old-name.git"

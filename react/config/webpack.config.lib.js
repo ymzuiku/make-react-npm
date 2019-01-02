@@ -192,6 +192,10 @@ module.exports = {
         include: paths.appSrc,
       },
       {
+        test: /.mdx?$/,
+        use: ['babel-loader', '@mdx-js/loader']
+      },
+      {
         oneOf: [
           {
             test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
