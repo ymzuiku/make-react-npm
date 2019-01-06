@@ -186,9 +186,9 @@ function copyPublicFolder() {
       dereference: true,
     });
   }
-  if (process.env.cp) {
-    fs.copyFile(path.resolve(__dirname, `../${process.env.cp}`), path.resolve(__dirname, `../dist/${process.env.cp}`));
-  }
+  // if (process.env.cp) {
+  //   fs.copyFile(path.resolve(__dirname, `../${process.env.cp}`), path.resolve(__dirname, `../dist/${process.env.cp}`));
+  // }
   if (fs.existsSync(path.resolve(__dirname, '../README.md'))) {
     fs.copySync(path.resolve(__dirname, '../README.md'), path.resolve(__dirname, '../dist/README.md'));
   }
@@ -198,6 +198,15 @@ function copyPublicFolder() {
   if (fs.existsSync(path.resolve(__dirname, '../README-CN.md'))) {
     fs.copySync(path.resolve(__dirname, '../README-CN.md'), path.resolve(__dirname, '../dist/README-CN.md'));
   }
+  if (paths.libFile.delete && paths.libFile.delete.length > 0) {
+    for (let i = 0; i < paths.libFile.delete.length; i++) {
+      const deleteFilePath = path.resolve(paths.appBuild, paths.libFile.delete[i]);
+      if (fs.existsSync(deleteFilePath)) {
+        fs.removeSync(deleteFilePath);
+      }
+    }
+  }
+
   packageJSON.main = 'index.js';
   packageJSON.types = 'index.d.ts';
   delete packageJSON.scripts;
@@ -207,9 +216,9 @@ function copyPublicFolder() {
   delete packageJSON.browserslist;
   delete packageJSON.babel;
   delete packageJSON['pre-commit'];
-  
+
   packageJSON['pre-commit'] = {};
-  if (process.env.copy) {
+  if (process.env.copyDependencies) {
     packageJSON['copy-dependencies'] = { ...packageJSON.dependencies };
     packageJSON.dependencies = {};
   }

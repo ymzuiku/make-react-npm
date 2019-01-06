@@ -6,7 +6,7 @@
 
 /* .libconfig.js 文件例子
 module.exports = {
-  lib: ['./src/components', './src/assets', './src/units'],
+  lib: ['./src/HBComponents', './src/assets', './src/units'],
   dontLib: ['./src/units/paths.js'],
 };
 */
@@ -16,21 +16,54 @@ const fs = require('fs-extra');
 const url = require('url');
 const rootPath = path.resolve(__dirname, '../');
 
-let libConfig = { lib: {}, dontLib: {} };
+function message(msg, isError) {
+  console.warn('');
+  if (isError) {
+    console.warn('Error:');
+  }
+  console.warn(msg);
+  console.warn('');
+}
 
+let libConfig = { lib: {}, dontLib: {} };
 const libConfigPath = path.resolve(rootPath, '.libconfig.js');
-if (fs.existsSync(libConfigPath)) {
-  let tempLib = require(libConfigPath);
-  if (tempLib.lib) {
-    for (let i = 0; i < tempLib.lib.length; i++) {
-      libConfig.lib[path.resolve(rootPath, tempLib.lib[i])] = true;
-    }
-  }
-  if (tempLib.dontLib) {
-    for (let i = 0; i < tempLib.dontLib.length; i++) {
-      libConfig.dontLib[path.resolve(rootPath, tempLib.dontLib[i])] = true;
-    }
-  }
+
+if (!fs.existsSync(libConfigPath)) {
+  fs.writeFileSync(
+    libConfigPath,
+    `module.exports = {
+  lib: [], // need babel files or dirs
+  dontLib: [],  // dont babel files or dirs
+  copy: [], // only copy files or dirs
+  delete: [], // after copy builded, delete files
+  sourceMap: true, // Is create sourceMap
+};`,
+  );
+}
+
+let libFile = require(libConfigPath);
+
+if (!libFile.lib || libFile.lib.length === 0) {
+  message('Please set lib array in .fixInterfaceApisConfig.js', true);
+  return;
+}
+
+if (!libFile.dontLib) {
+  message('Please set dontLib array in .fixInterfaceApisConfig.js', true);
+  return;
+}
+
+if (!libFile.copy) {
+  message('Please set copy array in .fixInterfaceApisConfig.js', true);
+  return;
+}
+
+for (let i = 0; i < libFile.lib.length; i++) {
+  libConfig.lib[path.resolve(rootPath, libFile.lib[i])] = true;
+}
+
+for (let i = 0; i < libFile.dontLib.length; i++) {
+  libConfig.dontLib[path.resolve(rootPath, libFile.dontLib[i])] = true;
 }
 
 // 递归 src/, 如果有 *.lib.js 的文件就添加到lib编译中, 请确保 *.lib.js 不要重名
@@ -40,6 +73,15 @@ if (fs.existsSync(libConfigPath)) {
 
 const entryList = {};
 const copyList = {};
+for (let i = 0; i < libFile.copy.length; i++) {
+  const str = libFile.copy[i];
+  if (str.search(/\//) > -1) {
+    const list = str.split('/');
+    copyList[list[0]] = path.resolve(rootPath, list[1]);
+  } else {
+    copyList[str] = path.resolve(rootPath, str);
+  }
+}
 function loadAllEnters(rootP) {
   const ignoreFiles = {
     '.DS_Store': true,
@@ -197,6 +239,7 @@ const resolveModule = (resolveFn, filePath) => {
 module.exports = {
   entryList,
   copyList,
+  libFile,
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
   appBuild: resolveApp('dist'),

@@ -21,7 +21,10 @@ const paths = require('./paths.lib');
 
 const publicPath = paths.servedPath;
 const shouldUseRelativeAssetPaths = publicPath === './';
-const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+let shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+if (paths.libFile && paths.libFile.sourceMap !== undefined) {
+  shouldUseSourceMap = paths.libFile.sourceMap;
+}
 const publicUrl = publicPath.slice(0, -1);
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
@@ -88,7 +91,20 @@ module.exports = {
   // You can exclude the *.map files from the build during deployment.
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the app code.
-  externals: [nodeExternals()],
+  externals: [
+    nodeExternals(),
+    function(context, request, callback) {
+      // src/HBComponents/HBButton -> ./HBButton
+      if (/^src\/HBComponents\//.test(request)) {
+        const requestObjPath = request.split(/^src\/HBComponents\//)[1];
+        return callback(null, './' + requestObjPath);
+      } else if (/^src\/assets\//.test(request)) {
+        const requestObjPath = request.split(/^src\/assets\//)[1];
+        return callback(null, './' + requestObjPath);
+      }
+      callback();
+    },
+  ],
   entry: paths.entryList,
   output: {
     // The build folder.
@@ -158,7 +174,8 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
-      // 'src': path.resolve(__dirname, '../src'),
+      'src/HBComponents': 'hobbes-ui-kit',
+      src: path.resolve(__dirname, '../src'),
     },
     plugins: [PnpWebpackPlugin, new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson])],
   },
