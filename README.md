@@ -2,7 +2,7 @@
 
 如果你平时想发布一个自己的 React 组件，发现它并没有和发布其他 JavaScript 库一样简单，首先它得对 JSX 进行转化，并且得使用 babel 把语法转化为 ES3，还得忽略掉一些项目里已用到的库，如 react、react-dom 等等，还得编写 TypeScript 声明文件。
 
-天啊，我只是想把一个组件抽离到 modules 中，为什么需要配置这么多琐事？
+天啊，我只是想把一个组件抽离到 module 中，为什么需要配置这么多琐事？
 
 这个脚手架就是做以上的事情，它非常简单，仅仅是帮我们生成了一个已经配置好的webpack的项目，我们编写完代码，根据约定抽离指定的代码，编译并发布到 [npmjs.com](https://www.npmjs.com/) 即可。
 
@@ -50,7 +50,7 @@ module.exports = {
 
 ### 发布
 
-- 发布之前修改 package.json 中的仓库地址，方便他人从 npm 库链接至项目仓库
+- 发布之前修改 package.json 中的 `hompage` 地址，方便他人从 npm 库链接至项目仓库
 - 前提有一个 [npmjs.com](https://www.npmjs.com/) 的账号，在本机登录
 - 设置好 package.json 中的 name 和 version，它们分别是 npm 包名和 包版本号
 - 请确保包可用，共同保证 npm 包的质量

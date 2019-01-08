@@ -94,12 +94,9 @@ module.exports = {
   externals: [
     nodeExternals(),
     function(context, request, callback) {
-      // src/HBComponents/HBButton -> ./HBButton
-      if (/^src\/HBComponents\//.test(request)) {
-        const requestObjPath = request.split(/^src\/HBComponents\//)[1];
-        return callback(null, './' + requestObjPath);
-      } else if (/^src\/assets\//.test(request)) {
-        const requestObjPath = request.split(/^src\/assets\//)[1];
+      // src/components/HBButton -> ./HBButton
+      if (/^src\/components\//.test(request)) {
+        const requestObjPath = request.split(/^src\/components\//)[1];
         return callback(null, './' + requestObjPath);
       }
       callback();
