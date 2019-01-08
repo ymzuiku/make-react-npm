@@ -12,7 +12,7 @@
     "lib": "node scripts/build.lib.js",
     "lib-d": "copyDependencies=1 node scripts/build.lib.js",
     "publish": "npm run lib && cd dist && npm publish --access public",
-    "deploy": "jest --ci && yarn build && bash deploy.sh root@120.79.150.132 deploy",
+    "deploy": "jest --ci && yarn build && bash scripts/deploy.sh root@xxxxxxx deploy",
     "rollback": "bash deploy.sh root@120.79.150.132 rollback",
     "lint-ci": "eslint src --ext .js --cache --fix",
     "test-ci": "jest --ci",

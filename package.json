@@ -1,6 +1,6 @@
 {
   "name": "make-react-npm",
-  "version": "0.3.9",
+  "version": "0.3.16",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ymzuiku/create-react-npm.git"
+    "url": "git+https://github.com/ymzuiku/make-react-npm.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "pillar",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ymzuiku/create-react-npm/issues"
+    "url": "https://github.com/ymzuiku/make-react-npm/issues"
   },
-  "homepage": "https://github.com/ymzuiku/create-react-npm#readme",
+  "homepage": "https://github.com/ymzuiku/make-react-npm#readme",
   "bin": {
     "make-react-npm": "bin.js"
   },

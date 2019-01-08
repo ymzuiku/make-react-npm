@@ -34,7 +34,10 @@ if (kind === "react") {
     fs.writeJSONSync(cwd + "/" + name + "/package.json", package, {
       spaces: 2
     });
-    console.log("Create react project done:", name);
+    console.log(' ');
+    console.log("Create react project done:", resolve(process.cwd(), name));
+    console.log(`Please "cd ${resolve(process.cwd(), name)}" , and run "yarn install"`);
+    console.log(' ');
   }
 } else if (kind === "next") {
   const name = argv[1];
@@ -48,6 +51,9 @@ if (kind === "react") {
     const package = require(nextPath + "/package.json");
     package.name = name;
     fs.writeJSONSync(name + "/package.json", package, { spaces: 2 });
-    console.log("Create next project done:", name);
+    console.log(' ');
+    console.log("Create next project done:", resolve(process.cwd(), name));
+    console.log(`Please "cd ${resolve(process.cwd(), name)}" , and run "yarn install"`);
+    console.log(' ');
   }
 }
