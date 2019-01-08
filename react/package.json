@@ -2,6 +2,7 @@
   "name": "react-ui-kit",
   "version": "0.0.1",
   "private": true,
+  "author": "",
   "main": "dist",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -211,6 +212,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ymzuiku/old-name.git"
+    "url": "git+https://github.com/your-name/old-repleat-name.git"
   }
 }

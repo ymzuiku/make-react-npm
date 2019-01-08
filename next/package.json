@@ -2,6 +2,7 @@
   "name": "sell-platform",
   "version": "0.0.1",
   "main": "index.js",
+  "author": "",
   "scripts": {
     "test": "jest --watchAll",
     "lint-hook": "node_modules/.bin/eslint 'src/**/*.js' --cache --cache-location './node_modules/.eslint_cache/'",
@@ -98,5 +99,9 @@
       "jsx",
       "node"
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-name/old-repleat-name.git"
   }
 }

@@ -1,59 +1,56 @@
 #!/usr/bin/env node
 
-const fs = require("fs-extra");
-const resolve = require("path").resolve;
-const cwd = process.cwd();
-const reactPath = resolve(__dirname, "react");
-const nextPath = resolve(__dirname, "next");
 const argv = process.argv.splice(2);
 const kind = argv[0];
+const name = argv[1];
 
-if (kind === "react") {
-  const git = argv[1];
-  const name = git.split("/")[1];
-  const oldGit = "ymzuiku/old-name";
+const fs = require('fs-extra');
+const resolve = require('path').resolve;
+const cwd = process.cwd();
+const targetPath = resolve(cwd, name);
+const reactPath = resolve(__dirname, 'react');
+const readmeFile = resolve(__dirname, './README.md');
+const nextPath = resolve(__dirname, 'next');
 
-  const isHaveDir = fs.existsSync(cwd + "/" + name);
+function makeProject(copyPath) {
+  const isHaveDir = fs.existsSync(targetPath);
   if (isHaveDir) {
     console.log(`Error: ${cwd}/${name} is exists`);
   } else {
-    fs.mkdir(cwd + "/" + name);
-    fs.copySync(reactPath, cwd + "/" + name);
+    fs.mkdir(targetPath);
+    fs.copySync(copyPath, targetPath);
+    console.log(readmeFile);
+    fs.copyFileSync(readmeFile, targetPath);
 
-    const package = require(reactPath + "/package.json");
+    const package = require(reactPath + '/package.json');
     package.name = name;
+    const oldGit = 'old-repleat-name';
     if (package.repository && package.repository.url) {
-      package.repository.url = package.repository.url.replace(oldGit, git);
+      package.repository.url = package.repository.url.replace(oldGit, name);
     }
     if (package.bugs && package.bugs.url) {
-      package.bugs.url = package.bugs.url.replace(oldGit, git);
+      package.bugs.url = package.bugs.url.replace(oldGit, name);
     }
     if (package.homepage) {
-      package.homepage = package.homepage.replace(oldGit, git);
+      package.homepage = package.homepage.replace(oldGit, name);
     }
-    fs.writeJSONSync(cwd + "/" + name + "/package.json", package, {
-      spaces: 2
+    fs.writeJSONSync(resolve(targetPath, 'package.json'), package, {
+      spaces: 2,
     });
     console.log(' ');
-    console.log("Create react project done:", resolve(process.cwd(), name));
+    console.log('Create react project done:', resolve(process.cwd(), name));
     console.log(`Please "cd ${resolve(process.cwd(), name)}" , and run "yarn install"`);
     console.log(' ');
   }
-} else if (kind === "next") {
-  const name = argv[1];
-  const isHaveDir = fs.existsSync(name);
-  if (isHaveDir) {
-    console.log(`Error: ${name} is exists`);
-  } else {
-    fs.mkdir(name);
-    fs.copySync(nextPath, name);
+}
 
-    const package = require(nextPath + "/package.json");
-    package.name = name;
-    fs.writeJSONSync(name + "/package.json", package, { spaces: 2 });
-    console.log(' ');
-    console.log("Create next project done:", resolve(process.cwd(), name));
-    console.log(`Please "cd ${resolve(process.cwd(), name)}" , and run "yarn install"`);
-    console.log(' ');
-  }
+if (kind === 'react') {
+  makeProject(reactPath);
+} else if (kind === 'next') {
+  makeProject(nextPath);
+} else {
+  console.log(' ');
+  console.log('Please input project type: react | next, like:');
+  console.log('make-react-npm react your-project');
+  console.log(' ');
 }
