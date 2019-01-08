@@ -19,8 +19,7 @@ function makeProject(copyPath) {
   } else {
     fs.mkdir(targetPath);
     fs.copySync(copyPath, targetPath);
-    console.log(readmeFile);
-    fs.copyFileSync(readmeFile, targetPath);
+    fs.copySync(readmeFile, targetPath + '/README.md');
 
     const package = require(reactPath + '/package.json');
     package.name = name;
@@ -50,7 +49,7 @@ if (kind === 'react') {
   makeProject(nextPath);
 } else {
   console.log(' ');
-  console.log('Please input project type: react | next, like:');
+  console.log('Error: Please input project type: react | next, like:');
   console.log('make-react-npm react your-project');
   console.log(' ');
 }

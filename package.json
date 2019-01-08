@@ -1,8 +1,9 @@
 {
   "name": "make-react-npm",
-  "version": "0.3.16",
+  "version": "0.3.17",
   "description": "",
   "main": "index.js",
+  "author": "pillar",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,7 +12,6 @@
     "url": "git+https://github.com/ymzuiku/make-react-npm.git"
   },
   "keywords": [],
-  "author": "pillar",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ymzuiku/make-react-npm/issues"
