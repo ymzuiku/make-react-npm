@@ -97,6 +97,9 @@ require(img.face) // require('lib_media/face_JF73F.png')
 
 - 当前是在 create-react-app@2 上进行扩展, 原则上此库是一个完整的 React 项目库，你使用 yarn start 启动项目, 亦可使用 jest 进行测试，亦可配合 yarn lib 进行指定文件的编译
 - 如果需要扩展 webpack 请自行修改 scripts 文件夹中的 webpack 文件
+- webpack 已经配置好 sass 和 less 的loader， 如果需要使用这些css预处理工具，请添加依赖即可：
+  - less: yarn add less less-loader -D
+  - sass: yarn add node-sass sass-loader
 
 ## Licenes
 

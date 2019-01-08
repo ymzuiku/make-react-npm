@@ -4,13 +4,6 @@
  * 即可对路径中的文件逐个进行编译
  */
 
-/* .libconfig.js 文件例子
-module.exports = {
-  lib: ['./src/HBComponents', './src/assets', './src/units'],
-  dontLib: ['./src/units/paths.js'],
-};
-*/
-
 const path = require('path');
 const fs = require('fs-extra');
 const url = require('url');
