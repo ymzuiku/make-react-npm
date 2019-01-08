@@ -59,7 +59,14 @@ if (!libFile.copy) {
 }
 
 for (let i = 0; i < libFile.lib.length; i++) {
-  libConfig.lib[path.resolve(rootPath, libFile.lib[i])] = true;
+  let fileName = libFile.lib[i];
+  let outName = true;
+  if (fileName && fileName.search(/\?/) > -1) {
+    const fileNameList = fileName.split('?');
+    fileName = fileNameList[0];
+    outName = fileNameList[1];
+  }
+  libConfig.lib[path.resolve(rootPath, fileName)] = outName;
 }
 
 for (let i = 0; i < libFile.dontLib.length; i++) {
@@ -150,7 +157,11 @@ function loadAllEnters(rootP) {
         // 如果 .libconfig.js 中直接包含了文件，也进行抽离
         else if (libConfig.lib[vp]) {
           const vlist = v.split('.');
-          entryList[vlist[0]] = vp;
+          if (typeof libConfig.lib[vp] === 'string') {
+            entryList[libConfig.lib[vp]] = vp;
+          } else {
+            entryList[vlist[0]] = vp;
+          }
         }
         // 如果以上条件不满足，但是文件名中包含 .lib 进行抽离
         else {

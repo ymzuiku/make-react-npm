@@ -40,7 +40,10 @@ $ cd new-project && yarn
 
 ```js
 module.exports = {
-  lib: ['./src/HBComponents', './src/tools/*'], // *表示递归子文件夹
+  // 如果 lib 的元素是文件夹，编译文件夹内所有 js 文件，*表示递归子文件夹
+  // 如果 lib 的元素是文件，直接编译该文件
+  // xxx/index.js?button, 表示把index编译成button文件
+  lib: ['./src/HBComponents', './src/tools/*'],
   dontLib: ['./src/units/paths.js'],
   copy: ['./scripts/fixInterfaceApis.js'], // 仅做拷贝至dist的文件
   delete: ['interfaceApis.json'], // 编译后需要删除dist的文件
