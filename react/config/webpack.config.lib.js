@@ -174,7 +174,6 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
-      'src/HBComponents': 'hobbes-ui-kit',
       src: path.resolve(__dirname, '../src'),
     },
     plugins: [PnpWebpackPlugin, new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson])],
@@ -236,6 +235,12 @@ module.exports = {
                         ReactComponent: '@svgr/webpack?-prettier,-svgo![path]',
                       },
                     },
+                  },
+                ],
+                [
+                  require.resolve('babel-plugin-module-resolver'),
+                  {
+                    alias: {},
                   },
                 ],
               ],

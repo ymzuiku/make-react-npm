@@ -6,15 +6,20 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "reload-img": "auto-require-files src/assets HBAssets",
+    "fixApis": "node scripts/fixInterfaceApis.js",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "lib": "copy=1 node scripts/build.lib.js",
+    "lib": "node scripts/build.lib.js",
+    "lib-d": "copyDependencies=1 node scripts/build.lib.js",
     "publish": "npm run lib && cd dist && npm publish --access public",
     "deploy": "jest --ci && yarn build && bash deploy.sh root@120.79.150.132 deploy",
     "rollback": "bash deploy.sh root@120.79.150.132 rollback",
     "lint-ci": "eslint src --ext .js --cache --fix",
     "test-ci": "jest --ci",
     "test": "node scripts/test.js"
+  },
+  "bin": {
+    "fixInterfaceApis": "fixInterfaceApis.js"
   },
   "dependencies": {
     "fastclick": "^1.0.6",
@@ -47,7 +52,9 @@
     "babel-eslint": "9.0.0",
     "babel-jest": "23.6.0",
     "babel-loader": "8.0.4",
+    "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-named-asset-import": "^0.2.3",
+    "babel-plugin-react-docgen": "^2.0.0",
     "babel-plugin-styled-components": "^1.9.4",
     "babel-preset-react-app": "^6.1.0",
     "bfj": "6.1.1",
@@ -191,15 +198,19 @@
         {
           "legacy": true
         }
+      ],
+      [
+        "module-resolver",
+        {
+          "alias": {
+            "src": "./src"
+          }
+        }
       ]
     ]
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ymzuiku/old-name.git"
-  },
-  "bugs": {
-    "url": "git+https://github.com/ymzuiku/old-name.git"
-  },
-  "homepage": "git+https://github.com/ymzuiku/old-name.git"
+  }
 }
