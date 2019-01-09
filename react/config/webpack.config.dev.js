@@ -40,7 +40,7 @@ const lessRegex = /\.(less)$/;
 const lessModuleRegex = /\.module\.(less)$/;
 
 // common function to get style loaders
-const getStyleLoaders = (cssOptions, preProcessor) => {
+const getStyleLoaders = (cssOptions, preProcessor, preOptions) => {
   const loaders = [
     require.resolve('style-loader'),
     {
@@ -68,7 +68,12 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
       },
     },
   ];
-  if (preProcessor) {
+  if (preProcessor && preOptions) {
+    loaders.push({
+      loader: require.resolve(preProcessor),
+      options: preOptions,
+    });
+  } else if (preProcessor) {
     loaders.push(require.resolve(preProcessor));
   }
   return loaders;
@@ -293,7 +298,7 @@ module.exports = {
           {
             test: sassRegex,
             exclude: sassModuleRegex,
-            use: getStyleLoaders({ importLoaders: 2 }, 'sass-loader'),
+            use: getStyleLoaders({ mportLoaders: 2 }, 'sass-loader'),
           },
           // Adds support for CSS Modules, but using SASS
           // using the extension .module.scss or .module.sass
@@ -312,7 +317,9 @@ module.exports = {
           {
             test: lessRegex,
             exclude: lessModuleRegex,
-            use: getStyleLoaders({ importLoaders: 2 }, 'less-loader'),
+            use: getStyleLoaders({ importLoaders: 2 }, 'less-loader', {
+              javascriptEnabled: true
+            }),
           },
           {
             test: lessModuleRegex,
@@ -323,6 +330,9 @@ module.exports = {
                 getLocalIdent: getCSSModuleLocalIdent,
               },
               'less-loader',
+              {
+                javascriptEnabled: true
+              },
             ),
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.

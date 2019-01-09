@@ -47,7 +47,7 @@ const lessRegex = /\.(less)$/;
 const lessModuleRegex = /\.module\.(less)$/;
 
 // common function to get style loaders
-const getStyleLoaders = (cssOptions, preProcessor) => {
+const getStyleLoaders = (cssOptions, preProcessor, preOptions) => {
   const loaders = [
     {
       loader: MiniCssExtractPlugin.loader,
@@ -74,13 +74,13 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
       },
     },
   ];
-  if (preProcessor) {
+  if (preProcessor && preOptions) {
     loaders.push({
       loader: require.resolve(preProcessor),
-      options: {
-        sourceMap: shouldUseSourceMap,
-      },
+      options: preOptions,
     });
+  } else if (preProcessor) {
+    loaders.push(require.resolve(preProcessor));
   }
   return loaders;
 };
@@ -174,7 +174,6 @@ module.exports = {
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
       src: path.resolve(__dirname, '../src'),
-      components: path.resolve(__dirname, '../src/components'),
     },
     plugins: [PnpWebpackPlugin, new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson])],
   },
@@ -317,7 +316,9 @@ module.exports = {
           {
             test: lessRegex,
             exclude: lessModuleRegex,
-            use: getStyleLoaders({ importLoaders: 2 }, 'less-loader'),
+            use: getStyleLoaders({ importLoaders: 2 }, 'less-loader', {
+              javascriptEnabled: true,
+            }),
           },
           {
             test: lessModuleRegex,
@@ -328,6 +329,9 @@ module.exports = {
                 getLocalIdent: getCSSModuleLocalIdent,
               },
               'less-loader',
+              {
+                javascriptEnabled: true,
+              },
             ),
           },
           {
