@@ -16,6 +16,7 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin-alt');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const nodeExternals = require('webpack-node-externals');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const paths = require('./paths.lib');
 
@@ -43,11 +44,11 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
-const lessRegex = /\.(less)$/;
-const lessModuleRegex = /\.module\.(less)$/;
+const lessRegex = /\.less$/;
+const lessModuleRegex = /\.module\.less$/;
 
 // common function to get style loaders
-const getStyleLoaders = (cssOptions, preProcessor, preOptions) => {
+const getStyleLoaders = (cssOptions, preProcessor) => {
   const loaders = [
     {
       loader: MiniCssExtractPlugin.loader,
@@ -74,13 +75,13 @@ const getStyleLoaders = (cssOptions, preProcessor, preOptions) => {
       },
     },
   ];
-  if (preProcessor && preOptions) {
+  if (preProcessor) {
     loaders.push({
       loader: require.resolve(preProcessor),
-      options: preOptions,
+      options: {
+        sourceMap: shouldUseSourceMap,
+      },
     });
-  } else if (preProcessor) {
-    loaders.push(require.resolve(preProcessor));
   }
   return loaders;
 };
@@ -96,9 +97,12 @@ module.exports = {
   externals: [
     nodeExternals(),
     function(context, request, callback) {
-      // src/components/HBButton -> ./HBButton
-      if (/^src\/components\//.test(request)) {
-        const requestObjPath = request.split(/^src\/components\//)[1];
+      // src/HBComponents/HBButton -> ./HBButton
+      if (/^src\/HBComponents\//.test(request)) {
+        const requestObjPath = request.split(/^src\/HBComponents\//)[1];
+        return callback(null, './' + requestObjPath);
+      } else if (/^src\/assets\//.test(request)) {
+        const requestObjPath = request.split(/^src\/assets\//)[1];
         return callback(null, './' + requestObjPath);
       }
       callback();
@@ -206,7 +210,6 @@ module.exports = {
         ],
         include: paths.appSrc,
       },
-
       {
         oneOf: [
           {
@@ -220,29 +223,11 @@ module.exports = {
           {
             test: /\.(js|mjs|jsx|ts|tsx)$/,
             include: paths.appSrc,
-
             loader: require.resolve('babel-loader'),
             options: {
               customize: require.resolve('babel-preset-react-app/webpack-overrides'),
-
-              plugins: [
-                [
-                  require.resolve('babel-plugin-named-asset-import'),
-                  {
-                    loaderMap: {
-                      svg: {
-                        ReactComponent: '@svgr/webpack?-prettier,-svgo![path]',
-                      },
-                    },
-                  },
-                ],
-                [
-                  require.resolve('babel-plugin-module-resolver'),
-                  {
-                    alias: {},
-                  },
-                ],
-              ],
+              babelrc: false,
+              extends: path.resolve(__dirname, 'babel.lib.json'),
               cacheDirectory: true,
               // Save disk space when time isn't as important
               cacheCompression: true,
@@ -317,7 +302,7 @@ module.exports = {
             test: lessRegex,
             exclude: lessModuleRegex,
             use: getStyleLoaders({ importLoaders: 2 }, 'less-loader', {
-              javascriptEnabled: true,
+              javascriptEnabled: true
             }),
           },
           {
@@ -330,7 +315,7 @@ module.exports = {
               },
               'less-loader',
               {
-                javascriptEnabled: true,
+                javascriptEnabled: true
               },
             ),
           },
@@ -348,6 +333,10 @@ module.exports = {
     ],
   },
   plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: process.env.analyzer ? 'server' : 'disabled',
+      analyzerPort: 7117,
+    }),
     new ModuleNotFoundPlugin(paths.appPath),
     new webpack.DefinePlugin(env.stringified),
     new MiniCssExtractPlugin({

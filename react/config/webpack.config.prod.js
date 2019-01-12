@@ -21,6 +21,7 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin-alt');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -54,11 +55,11 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
-const lessRegex = /\.(less)$/;
-const lessModuleRegex = /\.module\.(less)$/;
+const lessRegex = /\.less$/;
+const lessModuleRegex = /\.module\.less$/;
 
 // common function to get style loaders
-const getStyleLoaders = (cssOptions, preProcessor, preOptions) => {
+const getStyleLoaders = (cssOptions, preProcessor) => {
   const loaders = [
     {
       loader: MiniCssExtractPlugin.loader,
@@ -90,13 +91,13 @@ const getStyleLoaders = (cssOptions, preProcessor, preOptions) => {
       },
     },
   ];
-  if (preProcessor && preOptions) {
+  if (preProcessor) {
     loaders.push({
       loader: require.resolve(preProcessor),
-      options: preOptions,
+      options: {
+        sourceMap: shouldUseSourceMap,
+      },
     });
-  } else if (preProcessor) {
-    loaders.push(require.resolve(preProcessor));
   }
   return loaders;
 };
@@ -217,6 +218,7 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
+      src: path.resolve(__dirname, '../src'),
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -279,24 +281,11 @@ module.exports = {
           {
             test: /\.(js|mjs|jsx|ts|tsx)$/,
             include: paths.appSrc,
-
             loader: require.resolve('babel-loader'),
             options: {
               customize: require.resolve('babel-preset-react-app/webpack-overrides'),
-
-              plugins: [
-                [require.resolve('babel-plugin-react-docgen')],
-                [
-                  require.resolve('babel-plugin-named-asset-import'),
-                  {
-                    loaderMap: {
-                      svg: {
-                        ReactComponent: '@svgr/webpack?-prettier,-svgo![path]',
-                      },
-                    },
-                  },
-                ],
-              ],
+              babelrc: false,
+              extends: path.resolve(__dirname, 'babel.prod.json'),
               cacheDirectory: true,
               // Save disk space when time isn't as important
               cacheCompression: true,
@@ -398,7 +387,7 @@ module.exports = {
             test: lessRegex,
             exclude: lessModuleRegex,
             use: getStyleLoaders({ importLoaders: 2 }, 'less-loader', {
-              javascriptEnabled: true,
+              javascriptEnabled: true
             }),
           },
           {
@@ -411,7 +400,7 @@ module.exports = {
               },
               'less-loader',
               {
-                javascriptEnabled: true,
+                javascriptEnabled: true
               },
             ),
           },
@@ -437,6 +426,10 @@ module.exports = {
     ],
   },
   plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: process.env.analyzer ? 'server' : 'disabled',
+      analyzerPort: 7117,
+    }),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
