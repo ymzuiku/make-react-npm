@@ -48,19 +48,21 @@ const lessRegex = /\.less$/;
 const lessModuleRegex = /\.module\.less$/;
 
 // common function to get style loaders
-const getStyleLoaders = (cssOptions, preProcessor) => {
+const getStyleLoaders = (cssOptions, preProcessor, preOptions) => {
   const loaders = [
-    {
-      loader: MiniCssExtractPlugin.loader,
-      options: Object.assign({}, shouldUseRelativeAssetPaths ? { publicPath: '../../' } : undefined),
-    },
+    require.resolve('style-loader'),
     {
       loader: require.resolve('css-loader'),
       options: cssOptions,
     },
     {
+      // Options for PostCSS as we reference these options twice
+      // Adds vendor prefixing based on your specified browser support in
+      // package.json
       loader: require.resolve('postcss-loader'),
       options: {
+        // Necessary for external CSS imports to work
+        // https://github.com/facebook/create-react-app/issues/2677
         ident: 'postcss',
         plugins: () => [
           require('postcss-flexbugs-fixes'),
@@ -71,17 +73,16 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
             stage: 3,
           }),
         ],
-        sourceMap: shouldUseSourceMap,
       },
     },
   ];
-  if (preProcessor) {
+  if (preProcessor && preOptions) {
     loaders.push({
       loader: require.resolve(preProcessor),
-      options: {
-        sourceMap: shouldUseSourceMap,
-      },
+      options: preOptions,
     });
+  } else if (preProcessor) {
+    loaders.push(require.resolve(preProcessor));
   }
   return loaders;
 };

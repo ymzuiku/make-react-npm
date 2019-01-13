@@ -3,8 +3,8 @@
     "react-app"
   ],
   "plugins": [
-    "babel-plugin-styled-components",
     "react-docgen",
+    "babel-plugin-styled-components",
     [
       "babel-plugin-named-asset-import", 
       {

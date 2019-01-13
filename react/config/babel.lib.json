@@ -4,7 +4,6 @@
   ],
   "plugins": [
     "babel-plugin-styled-components",
-    "react-docgen",
     [
       "babel-plugin-named-asset-import", 
       {
