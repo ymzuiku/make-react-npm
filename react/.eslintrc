@@ -19,6 +19,9 @@
     "no-mixed-operators": 0,
     "consistent-return": 0,
     "no-plusplus": 0,
+    "no-undefined": 2,
+    "no-void": 0,
+    "require-await": 2,
     "react/sort-comp": 0,
     "no-alert": 0,
     "max-len": 0,
@@ -38,9 +41,13 @@
     "react/prop-types": [2, { "ignore": ["navigation"], "customValidators": [] }],
     "react/require-default-props": 0,
     "react/no-find-dom-node": 0,
+    "react/sort-prop-types": 1,
+    "react/jsx-sort-props": 1,
+    "react/jsx-key": 2,
     "react/prefer-stateless-function": 0,
     "react/destructuring-assignment": 0,
     "react/jsx-one-expression-per-line": "off",
-    "react/forbid-prop-types": [2, { "forbid": ["any"] }]
+    "react/forbid-prop-types": [2, { "forbid": ["any"] }],
+    "newline-after-var": 1
   }
 }
