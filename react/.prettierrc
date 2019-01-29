@@ -8,5 +8,5 @@
   "jsxBracketSameLine": false,
   "arrowParens": "avoid",
   "parser": "babel",
-  "proseWrap": "preserve"
+  "proseWrap": "p:eserve"
 }
